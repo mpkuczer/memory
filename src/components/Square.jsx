@@ -1,28 +1,43 @@
-import { TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 
-export default function Square({state, onPress}) {
+import colors from '../constants/colors'
+
+export default function Square({state, onPress, isInputDisabled}) {
   const backgroundColor = () => {
     switch (state) {
-      case 'correct':
-        return '#eaeaea'
-      case 'incorrect':
-        return '#222222'
-      case 'empty':
-        return '#005066'
-    }
+      case true:
+        return colors.white
+      case false:
+        return colors.gray
+      case null:
+        return colors.blue_4
+     }
   }
 
-  return (
-    <TouchableOpacity onPress={onPress} style={{
-      flex:1,
-      backgroundColor: backgroundColor(),
-      aspectRatio:1,
-      borderRadius: 10,
-      margin: 5
-    
-    }}>
-    </TouchableOpacity>
+  // const opacity = () => {
+  //   switch (state) {
+  //     case true:
+  //       return 0.75
+  //     case false:
+  //       return 0.75
+  //     case null:
+  //       return 0.75
+  //   }
+  // }
 
+  return (
+      <TouchableOpacity 
+        onPress={onPress}
+        disabled={state !== null || isInputDisabled}
+        style={{
+          flex: 1,
+          backgroundColor: backgroundColor(),
+          opacity: 0.75,
+          aspectRatio: 1,
+          borderRadius: 10,
+          margin: 5
+        }}
+      />
   )
 }
 
