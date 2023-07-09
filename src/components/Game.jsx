@@ -1,6 +1,7 @@
 import React from 'react'
-import { useState, useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { useState, useEffect, useRef } from 'react';
+import { View, StyleSheet, Animated } from 'react-native';
+import Score from './Score'
 import Board from './Board'
 import Outcome from './Outcome'
 
@@ -46,11 +47,13 @@ function getRandomPattern(level) {
 
 
 function Game() {
-  const [backgroundColor, setBackgroundColor] = useState(colors.blue_5);
+
   const [level, setLevel] = useState(1);
   const [pattern, setPattern] = useState(getRandomPattern(1));
 
-
+  const clearPattern = (level) => {
+    setPattern(emptyBoard(level))
+  }
   const setRandomPattern = (level) => {
     setPattern(getRandomPattern(level))
   }
@@ -99,10 +102,8 @@ function Game() {
   useEffect(() => {
     let timeout;
     if (levelComplete) {
-      setBackgroundColor(colors.green)
       setIsInputDisabled(true)
       timeout = setTimeout(() => {
-        setBackgroundColor(colors.blue_5)
         setLevel(level + 1)
         clearInput(level + 1)
         setRandomPattern(level + 1)
@@ -124,10 +125,8 @@ function Game() {
   useEffect(() => {
     let timeout;
     if (levelFailed) {
-      setBackgroundColor(colors.red)
       setIsInputDisabled(true)
       timeout = setTimeout(() => {
-        setBackgroundColor(colors.blue_5)
         setBigLivesLeft(bigLivesLeft - 1)
         clearInput(level)
         setRandomPattern(level)
@@ -158,41 +157,88 @@ function Game() {
     }))
   }
 
+  const levelCompleteAnimation = useRef(new Animated.Value(1)).current
+  const levelFailedAnimation = useRef(new Animated.Value(0)).current
+
+  useEffect(() => {
+    if (levelComplete) {
+      Animated.sequence([
+        Animated.timing(levelCompleteAnimation, {
+          toValue: 0.5,
+          duration: 150,
+          useNativeDriver: true,
+        }),
+        Animated.timing(levelCompleteAnimation, {
+          toValue: 1,
+          duration: 150,
+          useNativeDriver: true,
+        })
+      ]).start()
+    }
+  }, [levelComplete, levelCompleteAnimation])
+
+  useEffect(() => {
+    if (levelFailed) {
+      Animated.sequence([
+        Animated.timing(levelFailedAnimation, { toValue: 10, duration: 50, useNativeDriver: true }),
+        Animated.timing(levelFailedAnimation, { toValue: -10, duration: 50, useNativeDriver: true }),
+        Animated.timing(levelFailedAnimation, { toValue: 10, duration: 50, useNativeDriver: true }),
+        Animated.timing(levelFailedAnimation, { toValue: 0, duration: 100, useNativeDriver: true })
+      ]).start();
+    }
+  }, [levelFailed, levelFailedAnimation])
+
   //
 
 
   const styles = StyleSheet.create({
-    container: {
-      justifyContent: 'flex-start',
-      backgroundColor: backgroundColor,
+    outerContainer: {
+      backgroundColor: colors[`blue${level}`],
       height: '100%',
       padding: 20,
+      opacity: levelCompleteAnimation,
+    },
+    innerContainer: {
+      height: '100%',
+      justifyContent: 'center',
     }
   })
 
 
     return (
-      <View style={styles.container}>
-        {
-        gameOver 
-        ?
-        <Outcome
-          level={level}
-          resetGame={resetGame}
-        />
-        :
-        <Board
-          level={level}
-          bigLivesLeft={bigLivesLeft}
-          isReadingPhase={isReadingPhase}
-          isInputDisabled={isInputDisabled}
-          pattern={pattern}
-          result={result}
-          onSquarePress={onSquarePress}
-          bgColor={backgroundColor}  
-        />
-        }
-      </View>
+      <Animated.View style={styles.outerContainer}>
+        <Animated.View style={[
+            styles.innerContainer,
+          ]}>
+          {
+          gameOver 
+          ?
+          <Outcome
+            level={level}
+            resetGame={resetGame}
+          />
+          :
+          <>
+            <Score
+              level={level}
+              bigLivesLeft={bigLivesLeft}
+            />
+            <Animated.View style={[
+              {transform: [{translateY: levelFailedAnimation}]}
+            ]}>
+              <Board
+                level={level}
+                isReadingPhase={isReadingPhase}
+                isInputDisabled={isInputDisabled}
+                pattern={pattern}
+                result={result}
+                onSquarePress={onSquarePress}
+              />
+            </Animated.View>
+          </>
+          }
+        </Animated.View>
+      </Animated.View>
     )
 }
 
