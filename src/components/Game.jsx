@@ -7,6 +7,9 @@ import Outcome from './Outcome'
 
 import colors from '../constants/colors'
 
+import Sound from 'react-native-sound';
+
+
 const SMALL_LIVES = 3;
 const BIG_LIVES = 3;
 
@@ -156,6 +159,8 @@ function Game() {
         }
       })
     }))
+
+
   }
 
   const levelCompleteAnimation = useRef(new Animated.Value(1)).current
@@ -205,7 +210,23 @@ function Game() {
     }
   })
 
-
+  useEffect(() => {
+    const ding = new Sound('ding.mp3', Sound.MAIN_BUNDLE, (error) => {
+      if (error) {
+        console.log('failed to load the sound', error);
+        return;
+      } else {
+          ding.play(success => {
+          if (success) {
+            console.log('successfully finished playing');
+          } else {
+            console.log('playback failed due to audio decoding errors');
+          }
+        });
+      }
+    })  
+  }, [])
+  
     return (
       <Animated.View style={styles.outerContainer}>
         <Animated.View style={[
