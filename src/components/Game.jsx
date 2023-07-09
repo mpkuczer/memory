@@ -141,6 +141,7 @@ function Game() {
     setRandomPattern(1)
     clearInput(1)
     setBigLivesLeft(BIG_LIVES)
+    setIsReadingPhase(true)
   }
 
   function onSquarePress(i, j) {
