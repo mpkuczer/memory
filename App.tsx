@@ -8,11 +8,16 @@ import {
   Text,
   View,
 } from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
 
 import Game from './src/components/Game';
-import Sound from 'react-native-sound'
 
 function App(): JSX.Element {
+
+  useEffect(() => {
+    SplashScreen.hide(); //hides the splash screen on app load.
+  }, []);
+
   return (
     <SafeAreaView>
       <StatusBar/>
