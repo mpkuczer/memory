@@ -1,32 +1,22 @@
 export default {
-  blue1: '#00607a',
-  blue2: '#005c75',
-  blue3: '#005870',
-  blue4: '#00546b',
-  blue5: '#005066',
-  blue6: '#004c61',
-  blue7: '#00485c',
-  blue8: '#004457',
-  blue9: '#004052',
-  blue10: '#003847',
-  blue11: '#003442',
-  blue12: '#00303d',
-  blue13: '#002c38',
-  blue14: '#002833',
-  blue15: '#00242e',
+  blueBg: function (lvl) {
+    if (lvl <= 14) {
+      return `hsl(193, 100%, ${24-lvl + 1}%)`
+    } else {
+      return `hsl(${193 + 2*lvl - 30}, 100%, 11%)`
+    }
+  },
+  blueBtn: function (lvl) {
+    if (lvl <= 14) {
+      return `hsl(193, 100%, ${24-lvl-4 + 1}%)`
+    } else {
+      return `hsl(${193 + 2*lvl - 30}, 100%, 7%)`
+    }
+  },
+
   red: '#6a040f',
   green: '#679436',
   white: '#eaeaea',
   gray: '#333333',
 };
 
-
-// blue_1: '#002029',
-//   blue_2: '#00303d',
-//   blue_3: '#004052',
-//   blue_4: '#005066',
-//   blue_5: '#00607a',
-//   blue_6: '#00708e',
-//   blue_7: '#0080a2',
-//   blue_8: '#0090b6',
-//   blue_9: '#00a0ca',

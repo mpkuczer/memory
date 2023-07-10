@@ -127,12 +127,14 @@ class AxesExample extends React.PureComponent {
 export default function Outcome({level, resetGame}) {
   const styles = StyleSheet.create({
     button: {
-      backgroundColor: colors[`blue${level+4}`],
+      backgroundColor: colors.blueBtn(level),
       height: 100,
       borderRadius: 25,
       justifyContent: 'center',
       alignItems: 'center',
       marginBottom: 20,
+      marginLeft: 20,
+      marginRight: 20,
     },
     buttonText: {
       textTransform: 'uppercase',

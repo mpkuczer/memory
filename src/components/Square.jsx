@@ -42,11 +42,11 @@ export default function Square({state, onPress, isInputDisabled, level}) {
   const backgroundColor = () => {
     switch (state) {
       case true:
-        return colors[`blue${level+4}`]
+        return colors.blueBtn(level)
       case false:
         return colors.gray
       case null:
-        return colors[`blue${level+4}`]
+        return colors.blueBtn(level)
      }
   }
 

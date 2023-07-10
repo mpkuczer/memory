@@ -14,7 +14,7 @@ const SMALL_LIVES = 3;
 const BIG_LIVES = 3;
 
 function levelToBoardSize(level) {
-  return Math.floor(level / 3) + 3
+  return level > 15 ? 8 : Math.floor(level / 3) + 3
 }
 
 function levelToPatternSize(level) {
@@ -89,6 +89,12 @@ function Game() {
 
   const [isReadingPhase, setIsReadingPhase] = useState(true)
 
+  const readingInterval = level < 15
+    ? 1500
+    : level < 28
+      ? 1500-(level-15)*100
+      : 200
+
   useEffect(() => {
     let timeout;
     if (isReadingPhase) {
@@ -96,10 +102,10 @@ function Game() {
       timeout = setTimeout(() => {
         setIsReadingPhase(false)
         setIsInputDisabled(false)
-      }, 2000)
+      }, readingInterval)
     }
     return () => clearTimeout(timeout)
-  }, [isReadingPhase])
+  }, [isReadingPhase, readingInterval])
 
   useEffect(() => {
     let timeout;
@@ -198,7 +204,7 @@ function Game() {
 
   const styles = StyleSheet.create({
     outerContainer: {
-      backgroundColor: colors[`blue${level}`],
+      backgroundColor: colors.blueBg(level),
       height: '100%',
       padding: 20,
       opacity: levelCompleteAnimation,
