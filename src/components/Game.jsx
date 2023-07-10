@@ -4,6 +4,7 @@ import { View, StyleSheet, Animated } from 'react-native';
 import Score from './Score'
 import Board from './Board'
 import Outcome from './Outcome'
+import WelcomeComponent from './WelcomeComponent';
 
 import colors from '../constants/colors'
 
@@ -231,7 +232,11 @@ function Game() {
       }
     })  
   }, [])
+
+  const [hasStartedOnce, setHasStartedOnce] = useState(false)
   
+
+  if (hasStartedOnce) {
     return (
       <Animated.View style={styles.outerContainer}>
         <Animated.View style={[
@@ -267,6 +272,11 @@ function Game() {
         </Animated.View>
       </Animated.View>
     )
+  } else {
+    return (
+      <WelcomeComponent startGame={() => setHasStartedOnce(true)}/>
+    )
+  } 
 }
 
 

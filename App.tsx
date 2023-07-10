@@ -11,6 +11,7 @@ import {
 import SplashScreen from 'react-native-splash-screen';
 
 import Game from './src/components/Game';
+import { NavigationContainer } from '@react-navigation/native';
 
 function App(): JSX.Element {
 
@@ -19,11 +20,12 @@ function App(): JSX.Element {
   }, []);
 
   return (
-    <SafeAreaView>
-      <StatusBar/>
-      <Game/>
-
-    </SafeAreaView>
+    <NavigationContainer>
+      <SafeAreaView>
+        <StatusBar/>
+        <Game/>
+      </SafeAreaView>
+    </NavigationContainer>
   );
 }
 
