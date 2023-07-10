@@ -91,7 +91,6 @@ function Game() {
 
   useEffect(() => {
     let timeout;
-    console.log('hello')
     if (isReadingPhase) {
       setIsInputDisabled(true)
       timeout = setTimeout(() => {
