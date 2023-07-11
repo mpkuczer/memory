@@ -1,9 +1,9 @@
-import { View, Text, Button, Pressable, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, Pressable, StyleSheet } from 'react-native'
 import React from 'react'
 import colors from '../constants/colors'
 import Logo from './Logo'
 
-export default function WelcomeComponent({startGame}) {
+export default function Welcome({startGame}) {
   const styles = StyleSheet.create({
     container: {
       backgroundColor: colors.blueBg(1),
